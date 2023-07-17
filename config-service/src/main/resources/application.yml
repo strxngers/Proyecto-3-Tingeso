@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          default-label: main
+          uri: https://github.com/strxngers/Repo2-tingeso3
+          search-paths: config-data3
+  application:
+    name: config-service
