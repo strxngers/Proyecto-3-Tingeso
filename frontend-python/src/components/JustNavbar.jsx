@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Cronometro from "./Cronometro";
 
 
 function NavbarComponent() {
@@ -11,12 +10,7 @@ function NavbarComponent() {
         <header class="header">
           <div class="logo">
             <h1>P de Python</h1>
-          </div>
-          <nav></nav>
-          <div class="clock">
-            <Cronometro />
-            <h1></h1>
-          </div>
+            </div>
           <a class="btn" href="/">
             <button>Volver al menú principal</button>
           </a>
@@ -57,22 +51,12 @@ const NavStyle = styled.nav`
     cursor: pointer;
     transition: all 0.3s ease 0s;
     font-family: 'Montserrat', cursive;
-    
   }
 
   .header .btn button:hover {
     background-color: #e2f1f8;
     color: #ffbc0e;
     transform: scale(1.1);
-  }
-
-  .header .clock {
-    margin-top: 20px;
-    margin-left: 80px;
-    font-weight: 700;
-    text-align: center;
-    color: #eceff1;
-    font-family: 'Montserrat', cursive; /* Cambia la fuente a Montserrat */
   }
 
   .header .puntaje {

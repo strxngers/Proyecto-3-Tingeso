@@ -41,7 +41,7 @@ public class PreguntasService {
         List<PreguntasEntity> preguntasAleatorias = new ArrayList<>(preguntas.subList(0, 4));
         return preguntasAleatorias;
     }
-    public PreguntasEntity crearPregunta(MultipartFile archivo, int dificultad, String respuesta) {
+    public PreguntasEntity crearPregunta(MultipartFile archivo,String enunciado, int dificultad, String respuesta) {
         try {
             String preguntaPython = new String(archivo.getBytes());
 
@@ -49,6 +49,7 @@ public class PreguntasService {
             pregunta.setPreguntaPython(preguntaPython);
             pregunta.setDificultad(dificultad);
             pregunta.setRespuesta(respuesta);
+            pregunta.setEnunciado(enunciado);
 
             return preguntasRepository.save(pregunta);
         } catch (IOException e) {

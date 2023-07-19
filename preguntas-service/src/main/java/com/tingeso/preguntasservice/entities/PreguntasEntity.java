@@ -15,7 +15,7 @@ public class PreguntasEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    private String enunciado;
     private int dificultad; // 1: básico, 2: intermedio, 3: avanzado
     private String preguntaPython;
     private String respuesta;
