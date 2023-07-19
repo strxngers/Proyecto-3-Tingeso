@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import swal from "sweetalert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import JustNavbar from "./JustNavbar";
 
 const CrearPregunta = () => {
@@ -8,16 +9,13 @@ const CrearPregunta = () => {
   const [dificultad, setDificultad] = useState("");
   const [respuesta, setRespuesta] = useState("");
   const [enunciado, setEnunciado] = useState("");
+  const [mensaje, setMensaje] = useState({ text: "", tipo: "" });
 
   const handleArchivoTxtChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setArchivoTxt(e.target.result);
-    };
-    reader.readAsDataURL(file);
+    setArchivoTxt(file);
   };
 
   const handleDificultadChange = (event) => {
@@ -34,36 +32,39 @@ const CrearPregunta = () => {
 
   const handleEnviarPregunta = () => {
     if (!archivoTxt || dificultad === "" || respuesta.trim() === "" || enunciado.trim() === "") {
-      swal("Error", "Por favor, completa todos los campos antes de enviar la pregunta.", "error");
+      setMensaje({ text: "Error: Por favor, completa todos los campos antes de enviar la pregunta.", tipo: "error" });
       return;
     }
 
-    // You can now use `archivoTxt` in the request payload
-    const requestData = {
-      archivo: archivoTxt,
-      dificultad,
-      respuesta,
-      enunciado,
-    };
+    setMensaje({ text: "Enviando...", tipo: "info" }); // Mostrar un mensaje mientras se envía el formulario
+
+    const formData = new FormData();
+    formData.append("archivo", archivoTxt);
+    formData.append("dificultad", dificultad);
+    formData.append("respuesta", respuesta);
+    formData.append("enunciado", enunciado);
 
     fetch("http://localhost:8080/preguntas", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        swal("¡Pregunta enviada!", "La pregunta se ha enviado correctamente.", "success");
-        // Reset the form after successful submission
-        setArchivoTxt(null);
-        setDificultad("");
-        setRespuesta("");
-        setEnunciado("");
+        console.log(data); // Agregar esta línea para ver qué datos está devolviendo el servidor
+        if (data.message === "Pregunta creada con éxito.") {
+          setMensaje({ text: data.message, tipo: "success" });
+          // Reseteamos el formulario después del envío exitoso
+          setArchivoTxt(null);
+          setDificultad("");
+          setRespuesta("");
+          setEnunciado("");
+        } else {
+          setMensaje({ text: data.message, tipo: "error" });
+        }
       })
       .catch((error) => {
-        swal("Error", "Ha ocurrido un error al enviar la pregunta.", "error");
+        setMensaje({ text: "Error: Ha ocurrido un error al enviar la pregunta. Por favor, inténtalo nuevamente más tarde.", tipo: "error" });
+        console.error("Error al enviar la pregunta:", error);
       });
   };
 
@@ -91,6 +92,7 @@ const CrearPregunta = () => {
             <textarea id="enunciado" name="enunciado" rows="4" value={enunciado} onChange={handleEnunciadoChange}></textarea>
           </div>
           <button onClick={handleEnviarPregunta}>Enviar Pregunta</button>
+          {mensaje.text && <Mensaje tipo={mensaje.tipo}>{mensaje.text}</Mensaje>}
         </Card>
       </Container>
     </>
@@ -107,10 +109,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const Mensaje = styled.p`
+  color: ${({ tipo }) => (tipo === "error" ? "red" : "green")};
+  font-weight: bold;
+  margin: 10px 0;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   min-height: 100vh;
 `;
