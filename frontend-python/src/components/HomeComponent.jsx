@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { createGlobalStyle } from 'styled-components'
+import Navbar from "./PdePythonNavbar";
 
 
 export default function HomeComponent() {
@@ -31,19 +32,11 @@ export default function HomeComponent() {
     <div>
       <GlobalStyle />
       <HomeStyle>
-        <h1 className="text-center">
-          <b>
-            {" "}
-            <i>
-              {" "}
-              🐍 P de Python 🐍
-            </i>
-          </b>
-        </h1>
+        <Navbar />
         <h3 className="text-center">
           {" "}
           <b>
-            Selecciona tu nivel de dificultad.{" "}
+            Selecciona tu nivel de dificultad para empezar a responder preguntas.{" "}
           </b>
         </h3>
         <br />
@@ -63,7 +56,7 @@ export default function HomeComponent() {
           </div>
           <div className="card">
             <h2>
-              <b>Modo Intermedio 🤔</b>
+              <b>Modo Intermedio</b>
             </h2>
             <h3>
               ¡Desafía tus habilidades en Python con desafíos de dificultad media! Si ya 
@@ -76,7 +69,7 @@ export default function HomeComponent() {
           </div>
           <div className="card">
             <h2>
-              <b>Modo Avanzado 😈</b>
+              <b>Modo Avanzado</b>
             </h2>
             <h3>
               ¡Sumérgete en el mundo de los desafíos épicos de Python! Si eres un experto en este 
@@ -91,7 +84,7 @@ export default function HomeComponent() {
         <br />
         <div className="card">
           <h2>
-            <b>Agregar un nuevo desafío 🐍 </b>
+            <b>¡Agregar un nuevo desafío! </b>
           </h2>
           <h3>
             ¡Prepárate para poner a prueba tus habilidades y enfrentar el desafío definitivo! 
@@ -112,63 +105,71 @@ body {
     background-color: #154360;
 }
 `;
-
 const HomeStyle = styled.nav`
-.text-center {
+  .text-center {
     justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     color: #fff;
-    font-family: 'Montserrat', cursive; 
+    font-family: 'Montserrat', cursive;
+  }
 
-}
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Añadir el padding para establecer la distancia del borde de la pantalla */
+  }
 
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-}
+  .card {
+    background-color: #312466;
+    border-radius: 25px;
+    border: 10px ;
+    padding: 25px;
+    text-align: center;
+    font-family: 'Montserrat', cursive;
+  }
 
-.card {
-  background-color: #1F618D;
-  border-radius: 25px;
-  padding: 20px;
-  text-align: center;
-  font-family: 'Montserrat', cursive; 
-}
+  .card-crear {
+    grid-column: span 3;
+    font-family: 'Montserrat', cursive;
+    padding: 20px; /* Añadir el mismo padding que a las otras cards */
+  }
 
-.card-crear {
-  grid-column: span 3;
-  font-family: 'Montserrat', cursive; 
-}
+  .card h2 {
+    color: #FDFEFE;
+  }
 
-.card h2 {
-  color: #FDFEFE;
-}
+  .card h3 {
+    color: #FDFEFE;
+    margin-bottom: 20px;
+  }
 
-.card h3 {
-  color: #FDFEFE;
-  margin-bottom: 20px;
-}
+  .btn {
+    font-weight: 700;
+    color: #1b3039;
+    padding: 9px 25px;
+    background: #eceff1;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+  }
 
-.btn {
-  font-weight: 700;
-  color: #1b3039;
-  padding: 9px 25px;
-  background: #eceff1;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
-}
+  .btn:hover {
+    background-color: #e2f1f8;
+    color: #ffbc0e;
+    transform: scale(1.1);
+  }
 
-.btn:hover {
-  background-color: #e2f1f8;
-  color: #ffbc0e;
-  transform: scale(1.1);
-}
+  h1 {
+    font-size: 36px; /* Tamaño del título más grande */
+    margin-bottom: 20px; /* Espacio inferior entre el título y el contenido */
+    font-family: 'Montserrat', cursive;
+  }
+
 `;

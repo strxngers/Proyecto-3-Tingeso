@@ -3,32 +3,8 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 
 export default function ResultadosComponent() {
-  const ComenzarFacil = () => {
-    localStorage.setItem("puntaje", 0);
-    localStorage.setItem("restantes", 4);
-    console.log()
-    window.location.href = "/basico";
-  };
-  const ComenzarBasico = () => {
-    localStorage.setItem("puntaje", 0);
-    localStorage.setItem("restantes", 4);
-    window.location.href = "/basico";
-  };
-
-  const ComenzarIntermedio = () => {
-    localStorage.setItem("puntaje", 0);
-    localStorage.setItem("restantes", 4);
-    window.location.href = "/intermedio";
-  };
-
-  const ComenzarAvanzado = () => {
-    localStorage.setItem("puntaje", 0);
-    localStorage.setItem("restantes", 4);
-    window.location.href = "/avanzado";
-  };
-
-  const CrearPregunta = () => {
-    window.location.href = "/crear-pregunta";
+  const VolverAlMenu = () => {
+    window.location.href = "/"; // Redirige al menú principal
   };
 
   const [puntaje, setPuntaje] = useState(
@@ -55,83 +31,38 @@ export default function ResultadosComponent() {
         <div className="resultados">
           <h1>
             <b>
-              <u>Tu calificación es: {puntaje}.0/ 7.0</u>
+              Tu nota es: {puntaje}.0/ 7.0
             </b>
           </h1>
           <h1>Tu tiempo fue de:</h1>
           <h1>
             <b>
-              {horas} horas, {minutos} minutos y {segundos} segundos.
+              {minutos} minutos y {segundos} segundos.
             </b>
           </h1>
           {puntaje == 7 ? (
-            <h1>¡Felicidades! Has completado el desafio con éxito.</h1>
+            <h1>¡Felicidades! Has respondido correctamente.</h1>
           ) : (
-            <h1>¡Puedes mejorar! Sigue intentandolo.</h1>
+            <h1>Puedes seguir practicando para mejorar tus puntajes, ¡No te rindas!</h1>
           )}
-        </div>
-        <br></br>
-        <div className="texto-resultados">
           <h1>
             <b>
-              ¿Buscas otros desafios? Intentalo denuevo, aumenta la dificultad o
-              crea tu propio desafio.
+              Puedes intentalo nuevamente, hasta que te sientas seguro/a para aumenta la dificultad o
+              puedes crear tu propio desafio. 
             </b>
+            <div className="text-center">
+        <button className="btn" onClick={VolverAlMenu}>
+          Intentar otro desafio
+        </button>
+        </div>
+        
+        <br></br>
+        <div className="texto-resultados">
+          
+      </div>
           </h1>
         </div>
-        <div className="facil">
-          <h2>
-            <b>Modo Básico 🙂</b>
-          </h2>
-          <h3>
-            ¡Descubre el emocionante mundo de la programación con Python! Este es el lugar 
-            perfecto para principiantes que desean sumergirse en el fascinante universo de la codificación. 
-            </h3>
-          <button type="button" class="btn btn-primary" onClick={ComenzarBasico}>
-            Comenzar
-          </button>
-        </div>
-        <br></br>
-        <div className="medio">
-          <h2>
-            <b>Modo Intermedio 🤔</b>
-          </h2>
-          <h3>
-            ¡Desafía tus habilidades en Python con desafíos de dificultad media! Si ya 
-            tienes conocimientos en este lenguaje de programación y estás buscando llevar 
-            tus habilidades al siguiente nivel, este es el lugar ideal para ti.
-            </h3>
-          <button type="button" class="btn btn-primary" onClick={ComenzarIntermedio}>
-            Comenzar
-          </button>
-        </div>
-        <br></br>
-        <div className="dificil">
-          <h2>
-            <b>Modo Avanzado 😈</b>
-          </h2>
-          <h3>
-              ¡Sumérgete en el mundo de los desafíos épicos de Python! Si eres un experto en este 
-              lenguaje de programación y buscas los retos más desafiantes, has llegado al lugar indicado
-            </h3>
-          <button type="button" class="btn btn-primary" onClick={ComenzarAvanzado}>
-            Comenzar
-          </button>
-        </div>
-
-        <br></br>
-        <div className="nueva-pregunta">
-          <h2>
-            <b>Agregar un nuevo desafio 🐍 </b>
-          </h2>
-          <h3>
-            ¡Prepárate para poner a prueba tus habilidades y enfrentar el desafío definitivo! 
-            Si has creado un desafío en Python y estás ansioso por ver cómo otros programadores se enfrentan a él, esta es tu oportunidad.
-          </h3>
-          <button type="button" class="btn btn-primary" onClick={CrearPregunta}>
-            Acceder
-          </button>
-        </div>
+            
         <br></br>
       </HomeStyle>
     </>
@@ -176,7 +107,7 @@ const HomeStyle = styled.nav`
     flex-direction: column;
     align-items: center;
     color: #FDFEFE;
-    background-color: #0F889E;
+    background-color: #312466;
     border-radius: 25px;
     padding: 20px;
     width: 60%;

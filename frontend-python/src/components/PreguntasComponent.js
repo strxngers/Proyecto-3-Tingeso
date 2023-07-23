@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
-import { CodeBlock, dracula } from "react-code-blocks";
+import { CodeBlock, shadesOfPurple } from "react-code-blocks";
 import Form from "react-bootstrap/Form";
 import add_to_puntaje from "./Puntaje";
 
@@ -11,6 +11,7 @@ export default function PreguntasComponent({
   enunciado,
   pregunta_python,
   respuesta,
+  onNextQuestion,
 }) {
   const initialState = {
     answer: "",
@@ -21,6 +22,7 @@ export default function PreguntasComponent({
   );
 
   const [trueAnswer, setTrueAnswer] = useState(-1);
+  const [showNextButton, setShowNextButton] = useState(false);
 
   const [input, setInput] = useState(initialState);
 
@@ -38,9 +40,14 @@ export default function PreguntasComponent({
       setTrueAnswer(0);
     }
 
-    if (localStorage.getItem("restantes") === "0") {
-      window.location.href = "/resultados";
-    }
+    setShowNextButton(true); // Mostramos el botón "Siguiente"
+  };
+
+  const handleNext = () => {
+    setInput(initialState); // Reiniciamos el estado del input de respuesta
+    setTrueAnswer(-1); // Reiniciamos el estado de trueAnswer
+    setShowNextButton(false); // Ocultamos el botón "Siguiente" nuevamente
+    onNextQuestion(); // Llamamos a la función de avance a la siguiente pregunta en el componente padre
   };
 
   return (
@@ -48,42 +55,51 @@ export default function PreguntasComponent({
       <GlobalStyle />
       <HomeStyle>
         <h3 className="text-enunciado">
-          <b>
-            Pregunta {id}: {enunciado}
-          </b>
+          <b>Pregunta : {enunciado}</b>
         </h3>
         <div className="code-box">
-          <CodeBlock
-            text={pregunta_python}
-            language="python"
-            theme={dracula}
-            codeBlock={{ lineNumbers: true }}
-            align="left"
-          />
+          {pregunta_python ? (
+            <CodeBlock
+              text={pregunta_python}
+              language="python"
+              theme={shadesOfPurple}
+              codeBlock={{ lineNumbers: true }}
+              align="left"
+            />
+          ) : (
+            <p>Cargando pregunta...</p>
+          )}
         </div>
         <div className="respuesta" style={{ marginBottom: "20px" }}>
-          <Form>
+          <Form onSubmit={compararRespuestas}>
             <Form.Group
               className="mb-3"
               controlId="respuesta"
               value={input.answer}
               onChange={changeAnswerHandler}
             >
-              <Form.Label>
-                <h3>Ingrese su respuesta aquí: </h3>
-              </Form.Label>
               <br />
-              <Form.Control type="text" placeholder="" />
+              <Form.Control
+                as="textarea"
+                rows={2}
+                cols={60}
+                placeholder=""
+              />
             </Form.Group>
+            {trueAnswer === 1 ? (
+              <h3>¡Respuesta Correcta!</h3>
+            ) : trueAnswer === 0 ? (
+              <h3>Respuesta Incorrecta:c </h3>
+            ) : (
+              // Mostramos el botón "Verificar Respuesta" si no se ha verificado
+              <button type="submit" variant="primary" style={{ marginTop: "20px" }}>
+                Verificar Respuesta
+              </button>
+            )}
           </Form>
-          {trueAnswer === 1 ? (
-            <h3>¡Respuesta Correcta!</h3>
-          ) : trueAnswer === 0 ? (
-            <h3>Respuesta Incorrecta:c </h3>
-          ) : (
-            <button variant="primary" onClick={compararRespuestas} style={{ marginTop: "20px" }}>
-              Verificar Respuesta
-            </button>
+          {showNextButton && trueAnswer !== -1 && (
+            // Mostramos el botón "Siguiente" si la respuesta fue verificada y es correcta o incorrecta
+            <NextButton onClick={handleNext}>Siguiente</NextButton>
           )}
         </div>
         <hr />
@@ -91,6 +107,7 @@ export default function PreguntasComponent({
     </div>
   );
 }
+
 
 const GlobalStyle = createGlobalStyle`
   body { 
@@ -103,6 +120,8 @@ const HomeStyle = styled.nav`
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 25px;
+    font-family: 'Montserrat', cursive;
   }
   .code-box {
     justify-content: center;
@@ -114,15 +133,15 @@ const HomeStyle = styled.nav`
   .respuesta {
     justify-content: center;
     padding-bottom: 50px;
-    border: none;
-    border-radius: 50px;
-  }
+    
+}
+  
 
   button {
     font-weight: 700;
     color: #1b3039;
     padding: 9px 25px;
-    background: #7dcea0;
+    background: #e2f1f8;
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -134,4 +153,23 @@ const HomeStyle = styled.nav`
     color: #ffbc0e;
     transform: scale(1.1);
   }
+`;
+const NextButton = styled.button`
+  /* Estilos para que el botón "Siguiente" se vea como el de "Verificar Respuesta" */
+  font-weight: 700;
+  color: #1b3039;
+  padding: 9px 25px;
+  background: #e2f1f8;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  font-family: 'Montserrat', cursive;
+
+  &:hover {
+    background-color: #e2f1f8;
+    color: #ffbc0e;
+    transform: scale(1.1);
+  }
+  
 `;

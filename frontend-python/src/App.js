@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<HomeComponent />} />
           <Route path="/basico" element={<NivelBasico />} />
           <Route path="/intermedio" element={<NivelIntermedio />} />
-          <Route path="/basico" element={<NivelAvanzado />} />
+          <Route path="/avanzado" element={<NivelAvanzado />} />
           <Route path="/crear-pregunta" element={<CrearPregunta />} />
           <Route path="/resultados" element={<ResultadosComponent />} />
         </Routes>

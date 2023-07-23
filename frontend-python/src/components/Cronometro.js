@@ -38,11 +38,7 @@ function Cronometro() {
   localStorage.setItem("minutos", minutos);
   localStorage.setItem("horas", horas);
 
-  const reiniciarCronometro = () => {
-    setSegundos(0);
-    setMinutos(0);
-    setHoras(0);
-  };
+
 
   const formatoTiempo = valor => {
     return valor < 10 ? `0${valor}` : valor;
@@ -61,7 +57,7 @@ export default Cronometro;
 
 const HomeStyle = styled.nav`
 .cronometro {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', cursive;
     font-size: 35px;
     text-align: center;
     margin-bottom: 20px;

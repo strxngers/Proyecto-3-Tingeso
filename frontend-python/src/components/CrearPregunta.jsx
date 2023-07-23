@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import JustNavbar from "./JustNavbar";
+import Navbar from "./NavbarComponent";
 
 const CrearPregunta = () => {
   const [archivoTxt, setArchivoTxt] = useState(null);
   const [dificultad, setDificultad] = useState("");
   const [respuesta, setRespuesta] = useState("");
   const [enunciado, setEnunciado] = useState("");
-  const [mensaje, setMensaje] = useState({ text: "", tipo: "" });
+  const [enviando, setEnviando] = useState(false);
 
   const handleArchivoTxtChange = (event) => {
     const file = event.target.files[0];
@@ -32,11 +30,11 @@ const CrearPregunta = () => {
 
   const handleEnviarPregunta = () => {
     if (!archivoTxt || dificultad === "" || respuesta.trim() === "" || enunciado.trim() === "") {
-      setMensaje({ text: "Error: Por favor, completa todos los campos antes de enviar la pregunta.", tipo: "error" });
+      alert("Error: Por favor, completa todos los campos antes de enviar la pregunta.");
       return;
     }
 
-    setMensaje({ text: "Enviando...", tipo: "info" }); // Mostrar un mensaje mientras se envía el formulario
+    setEnviando(true); // Deshabilitar el botón mientras se envía
 
     const formData = new FormData();
     formData.append("archivo", archivoTxt);
@@ -48,51 +46,61 @@ const CrearPregunta = () => {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // Agregar esta línea para ver qué datos está devolviendo el servidor
-        if (data.message === "Pregunta creada con éxito.") {
-          setMensaje({ text: data.message, tipo: "success" });
-          // Reseteamos el formulario después del envío exitoso
-          setArchivoTxt(null);
-          setDificultad("");
-          setRespuesta("");
-          setEnunciado("");
+      .then((response) => {
+        if (response.ok) {
+          alert("Pregunta creada con éxito.");
+          window.location.reload(); // Recargar la página después de un envío exitoso
         } else {
-          setMensaje({ text: data.message, tipo: "error" });
+          alert("Error al enviar la pregunta. Por favor, inténtalo nuevamente más tarde.");
         }
       })
       .catch((error) => {
-        setMensaje({ text: "Error: Ha ocurrido un error al enviar la pregunta. Por favor, inténtalo nuevamente más tarde.", tipo: "error" });
+        alert("Error al enviar la pregunta. Por favor, inténtalo nuevamente más tarde.");
         console.error("Error al enviar la pregunta:", error);
+      })
+      .finally(() => {
+        setEnviando(false); // Habilitar el botón después de recibir respuesta (éxito o error)
       });
   };
 
   return (
     <>
-      <JustNavbar />
+      <Navbar />
       <Container>
         <GlobalStyle />
         <Card>
           <h3>Crear Pregunta</h3>
           <div>
+            <label htmlFor="enunciado">Enunciado:</label>
+            <textarea id="enunciado" name="enunciado" value={enunciado} onChange={handleEnunciadoChange}></textarea>
+            {enunciado.trim() === "" && <ErrorMessage>Ingresa el enunciado de tu pregunta ¿Qué hace el código?</ErrorMessage>}
+          </div>
+          <div>
             <label htmlFor="archivoTxt">Archivo de texto:</label>
             <input type="file" id="archivoTxt" name="archivoTxt" accept=".txt" onChange={handleArchivoTxtChange} />
+            {!archivoTxt && <ErrorMessage>¡Recuerda ingresar la pregunta de python como archivo txt!</ErrorMessage>}
           </div>
           <div>
             <label htmlFor="dificultad">Dificultad:</label>
-            <input type="number" id="dificultad" name="dificultad" value={dificultad} onChange={handleDificultadChange} />
+            <select id="dificultad" name="dificultad" value={dificultad} onChange={handleDificultadChange}>
+              <option value="">Selecciona la dificultad</option>
+              <option value="1">Básico</option>
+              <option value="2">Intermedio</option>
+              <option value="3">Avanzado</option>
+            </select>
+            {dificultad === "" && <ErrorMessage>Selecciona la dificultad de tu pregunta</ErrorMessage>}
           </div>
           <div>
             <label htmlFor="respuesta">Respuesta:</label>
             <input type="text" id="respuesta" name="respuesta" value={respuesta} onChange={handleRespuestaChange} />
+            {respuesta.trim() === "" && <ErrorMessage>¡No olvides ingresa la respuesta a tu pregunta!</ErrorMessage>}
           </div>
-          <div>
-            <label htmlFor="enunciado">Enunciado:</label>
-            <textarea id="enunciado" name="enunciado" rows="4" value={enunciado} onChange={handleEnunciadoChange}></textarea>
-          </div>
-          <button onClick={handleEnviarPregunta}>Enviar Pregunta</button>
-          {mensaje.text && <Mensaje tipo={mensaje.tipo}>{mensaje.text}</Mensaje>}
+
+          <ButtonWrapper>
+            <Button onClick={handleEnviarPregunta} disabled={enviando}>
+              {enviando ? "Enviando..." : "Enviar Pregunta"}
+            </Button>
+          </ButtonWrapper>
         </Card>
       </Container>
     </>
@@ -107,12 +115,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-`;
-
-const Mensaje = styled.p`
-  color: ${({ tipo }) => (tipo === "error" ? "red" : "green")};
-  font-weight: bold;
-  margin: 10px 0;
 `;
 
 const Container = styled.div`
@@ -150,7 +152,8 @@ const Card = styled.div`
   }
 
   input,
-  textarea {
+  textarea,
+  select {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
@@ -162,22 +165,32 @@ const Card = styled.div`
   textarea {
     resize: vertical;
   }
+`;
 
-  button {
-    font-weight: 700;
-    color: #1b3039;
-    padding: 9px 25px;
-    background: #eceff1;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    font-family: 'Montserrat', cursive;
-  }
+const ButtonWrapper = styled.div`
+  margin-top: 15px;
+`;
 
-  button:hover {
+const Button = styled.button`
+  font-weight: 700;
+  color: #1b3039;
+  padding: 9px 25px;
+  background: #eceff1;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  font-family: 'Montserrat', cursive;
+
+  &:hover {
     background-color: #e2f1f8;
     color: #ffbc0e;
     transform: scale(1.1);
   }
+`;
+
+const ErrorMessage = styled.span`
+  color: white;
+  font-size: 14px;
+  margin-left: 10px;
 `;
