@@ -1,0 +1,7 @@
+def sumar_numeros(lista_numeros):
+    cadena_suma = '+'.join(str(numero) for numero in lista_numeros)
+    return cadena_suma
+
+numeros = [1, 2, 3, 4, 5]
+resultado = sumar_numeros(numeros)
+print(resultado)

@@ -1,0 +1,13 @@
+from itertools import combinations
+
+def combinaciones_suma_cero(lista_numeros):
+    combinaciones_tripletas = list(combinations(lista_numeros, 3))
+    contador = 0
+    for tripletas in combinaciones_tripletas:
+        if sum(tripletas) == 0:
+            contador += 1
+    return contador
+
+numeros = [-1, 0, 1, 2, -2]
+resultado = combinaciones_suma_cero(numeros)
+print(resultado)

@@ -41,21 +41,16 @@ public class PreguntasService {
         List<PreguntasEntity> preguntasAleatorias = new ArrayList<>(preguntas.subList(0, 4));
         return preguntasAleatorias;
     }
-    public PreguntasEntity crearPregunta(MultipartFile archivo,String enunciado, int dificultad, String respuesta) {
-        try {
-            String preguntaPython = new String(archivo.getBytes());
+    public PreguntasEntity crearPregunta(String preguntaPython, String enunciado, int dificultad, String respuesta) {
+        PreguntasEntity pregunta = new PreguntasEntity();
+        pregunta.setPreguntaPython(preguntaPython);
+        pregunta.setDificultad(dificultad);
+        pregunta.setRespuesta(respuesta);
+        pregunta.setEnunciado(enunciado);
 
-            PreguntasEntity pregunta = new PreguntasEntity();
-            pregunta.setPreguntaPython(preguntaPython);
-            pregunta.setDificultad(dificultad);
-            pregunta.setRespuesta(respuesta);
-            pregunta.setEnunciado(enunciado);
-
-            return preguntasRepository.save(pregunta);
-        } catch (IOException e) {
-            throw new RuntimeException("Error al leer el archivo adjunto", e);
-        }
+        return preguntasRepository.save(pregunta);
     }
+
 
 
 

@@ -1,0 +1,9 @@
+from itertools import product
+
+def combinaciones_cadenas(lista_cadenas):
+    return list(product(*lista_cadenas))
+
+cadenas1 = ["a", "b"]
+cadenas2 = ["x", "y"]
+resultado = combinaciones_cadenas([cadenas1, cadenas2])
+print(resultado)

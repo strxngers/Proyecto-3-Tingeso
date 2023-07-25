@@ -1,0 +1,11 @@
+from collections import defaultdict
+
+def palabras_anagramas(lista_palabras):
+    anagramas = defaultdict(list)
+    for palabra in lista_palabras:
+        anagramas[tuple(sorted(palabra))].append(palabra)
+    return list(anagramas.values())
+
+palabras = ["rat", "tar", "art", "car", "arc", "race", "care"]
+resultado = palabras_anagramas(palabras)
+print(resultado)

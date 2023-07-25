@@ -1,0 +1,6 @@
+def ordenar_por_longitud(lista_cadenas):
+    return sorted(lista_cadenas, key=len)
+
+cadenas = ["python", "es", "genial", "y", "poderoso"]
+resultado = ordenar_por_longitud(cadenas)
+print(resultado)

@@ -1,0 +1,5 @@
+cadena = "Python es genial"
+
+cadena_invertida = cadena[::-1]
+
+print(cadena_invertida)

@@ -1,0 +1,7 @@
+def longitud_palabras(lista_palabras):
+    palabras_filtradas = {palabra: len(palabra) for palabra in lista_palabras if len(palabra) > 3}
+    return palabras_filtradas
+
+palabras = ["Python", "es", "un", "lenguaje", "poderoso"]
+resultado = longitud_palabras(palabras)
+print(resultado)

@@ -1,0 +1,10 @@
+cadena = "La casa es grande y bonita"
+cadena_modificada = ""
+
+for caracter in cadena:
+    if caracter == "a":
+        cadena_modificada += "o"
+    else:
+        cadena_modificada += caracter
+
+print(cadena_modificada)

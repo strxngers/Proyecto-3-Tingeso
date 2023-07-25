@@ -1,0 +1,5 @@
+cadena = "Este es un ejemplo"
+
+cadena_modificada = cadena.replace("ejemplo", "cambio")
+
+print(cadena_modificada)

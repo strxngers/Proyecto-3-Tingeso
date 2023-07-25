@@ -60,7 +60,7 @@ const HomeStyle = styled.nav`
     font-family: 'Montserrat', cursive;
     font-size: 35px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   
   button {

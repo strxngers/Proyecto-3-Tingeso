@@ -1,0 +1,6 @@
+def es_palindromo(numero):
+    return str(numero) == str(numero)[::-1]
+
+numeros = [121, 456, 787, 232, 78987]
+palindromos = [numero for numero in numeros if es_palindromo(numero)]
+print(palindromos)

@@ -1,0 +1,9 @@
+def concatenar_palabras_vocal(lista_palabras):
+    palabras_vocal = [palabra for palabra in lista_palabras if palabra[0].upper() in 'AEIOU']
+    cadena_vocal = ' '.join(palabras_vocal)
+    return cadena_vocal
+
+palabras = ["elefante", "Antonio", "elevar", "iglesia", "Oso", "elefantes"]
+resultado = concatenar_palabras_vocal(palabras)
+print(resultado)
+"Antonio Oso"

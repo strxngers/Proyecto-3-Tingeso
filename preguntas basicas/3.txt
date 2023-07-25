@@ -1,0 +1,7 @@
+cadena = "Hola, mundo!"
+
+longitud = 0
+for caracter in cadena:
+    longitud += 1
+
+print(longitud)

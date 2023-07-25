@@ -1,0 +1,2 @@
+frutas = {"manzana": 2, "naranja": 3, "plátano": 1}
+print(frutas["naranja"])

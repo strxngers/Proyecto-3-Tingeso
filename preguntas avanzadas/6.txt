@@ -1,0 +1,11 @@
+def es_cuadrado_perfecto(numero):
+    raiz = int(numero ** 0.5)
+    return raiz * raiz == numero
+
+def numeros_cuadrados_perfectos_indice(lista_numeros):
+    numeros_filtrados = [numero for i, numero in enumerate(lista_numeros) if es_cuadrado_perfecto(i) and es_cuadrado_perfecto(numero)]
+    return numeros_filtrados
+
+numeros = [0, 1, 4, 9, 16, 25, 36, 49]
+resultado = numeros_cuadrados_perfectos_indice(numeros)
+print(resultado)

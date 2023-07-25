@@ -1,0 +1,10 @@
+def concatenar_nombres(lista_nombres):
+    if len(lista_nombres) == 1:
+        return lista_nombres[0]
+    else:
+        cadena_nombres = ', '.join(lista_nombres[:-1]) + ' & ' + lista_nombres[-1]
+        return cadena_nombres
+
+nombres = ["Alice", "Bob", "Charlie", "David"]
+resultado = concatenar_nombres(nombres)
+print(resultado)

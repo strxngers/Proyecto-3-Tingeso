@@ -71,7 +71,6 @@ export default NivelAvanzado;
 
 const HomeStyle = styled.nav`
   .clock {
-    margin-top: 20px;
     margin-left: auto; /* Alinea el elemento a la derecha */
     font-weight: 700;
     text-align: right;

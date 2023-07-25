@@ -48,12 +48,12 @@ public class PreguntasController {
     }
     @PostMapping
     public ResponseEntity<String> crearPregunta(
-            @RequestParam("archivo") MultipartFile archivo,
+            @RequestParam("preguntaPython") String preguntaPython,
             @RequestParam("dificultad") int dificultad,
             @RequestParam("respuesta") String respuesta,
             @RequestParam("enunciado") String enunciado) {
         try {
-            PreguntasEntity pregunta = preguntasService.crearPregunta(archivo, enunciado, dificultad, respuesta);
+            PreguntasEntity pregunta = preguntasService.crearPregunta(preguntaPython, enunciado, dificultad, respuesta);
             return ResponseEntity.ok("Pregunta creada con éxito.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

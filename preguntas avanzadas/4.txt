@@ -1,0 +1,16 @@
+def es_primo(numero):
+    if numero < 2:
+        return False
+    for i in range(2, int(numero ** 0.5) + 1):
+        if numero % i == 0:
+            return False
+    return True
+
+def combinaciones_suma_primo(lista1, lista2):
+    combinaciones = [(a, b) for a in lista1 for b in lista2 if es_primo(a + b)]
+    return combinaciones
+
+numeros1 = [2, 3, 4]
+numeros2 = [1, 5, 6]
+resultado = combinaciones_suma_primo(numeros1, numeros2)
+print(resultado)

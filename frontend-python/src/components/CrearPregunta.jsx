@@ -3,18 +3,11 @@ import styled, { createGlobalStyle } from "styled-components";
 import Navbar from "./NavbarComponent";
 
 const CrearPregunta = () => {
-  const [archivoTxt, setArchivoTxt] = useState(null);
   const [dificultad, setDificultad] = useState("");
   const [respuesta, setRespuesta] = useState("");
   const [enunciado, setEnunciado] = useState("");
+  const [preguntaPython, setPreguntaPython] = useState("");
   const [enviando, setEnviando] = useState(false);
-
-  const handleArchivoTxtChange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    setArchivoTxt(file);
-  };
 
   const handleDificultadChange = (event) => {
     setDificultad(event.target.value);
@@ -28,19 +21,23 @@ const CrearPregunta = () => {
     setEnunciado(event.target.value);
   };
 
+  const handlePreguntaPythonChange = (event) => {
+    setPreguntaPython(event.target.value);
+  };
+
   const handleEnviarPregunta = () => {
-    if (!archivoTxt || dificultad === "" || respuesta.trim() === "" || enunciado.trim() === "") {
+    if (dificultad === "" || respuesta.trim() === "" || preguntaPython.trim() === "" || enunciado.trim() === "") {
       alert("Error: Por favor, completa todos los campos antes de enviar la pregunta.");
       return;
     }
 
-    setEnviando(true); // Deshabilitar el botón mientras se envía
+    setEnviando(true);
 
     const formData = new FormData();
-    formData.append("archivo", archivoTxt);
+    formData.append("enunciado", enunciado);
+    formData.append("preguntaPython", preguntaPython);
     formData.append("dificultad", dificultad);
     formData.append("respuesta", respuesta);
-    formData.append("enunciado", enunciado);
 
     fetch("http://localhost:8080/preguntas", {
       method: "POST",
@@ -49,7 +46,7 @@ const CrearPregunta = () => {
       .then((response) => {
         if (response.ok) {
           alert("Pregunta creada con éxito.");
-          window.location.reload(); // Recargar la página después de un envío exitoso
+          window.location.reload();
         } else {
           alert("Error al enviar la pregunta. Por favor, inténtalo nuevamente más tarde.");
         }
@@ -59,7 +56,7 @@ const CrearPregunta = () => {
         console.error("Error al enviar la pregunta:", error);
       })
       .finally(() => {
-        setEnviando(false); // Habilitar el botón después de recibir respuesta (éxito o error)
+        setEnviando(false);
       });
   };
 
@@ -76,9 +73,9 @@ const CrearPregunta = () => {
             {enunciado.trim() === "" && <ErrorMessage>Ingresa el enunciado de tu pregunta ¿Qué hace el código?</ErrorMessage>}
           </div>
           <div>
-            <label htmlFor="archivoTxt">Archivo de texto:</label>
-            <input type="file" id="archivoTxt" name="archivoTxt" accept=".txt" onChange={handleArchivoTxtChange} />
-            {!archivoTxt && <ErrorMessage>¡Recuerda ingresar la pregunta de python como archivo txt!</ErrorMessage>}
+            <label htmlFor="preguntaPython">Pregunta en Python:</label>
+            <textarea id="preguntaPython" name="preguntaPython" value={preguntaPython} onChange={handlePreguntaPythonChange}></textarea>
+            {preguntaPython.trim() === "" && <ErrorMessage>Ingresa el enunciado de tu pregunta en Python</ErrorMessage>}
           </div>
           <div>
             <label htmlFor="dificultad">Dificultad:</label>
@@ -93,7 +90,7 @@ const CrearPregunta = () => {
           <div>
             <label htmlFor="respuesta">Respuesta:</label>
             <input type="text" id="respuesta" name="respuesta" value={respuesta} onChange={handleRespuestaChange} />
-            {respuesta.trim() === "" && <ErrorMessage>¡No olvides ingresa la respuesta a tu pregunta!</ErrorMessage>}
+            {respuesta.trim() === "" && <ErrorMessage>¡No olvides ingresar la respuesta a tu pregunta!</ErrorMessage>}
           </div>
 
           <ButtonWrapper>

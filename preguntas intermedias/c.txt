@@ -1,0 +1,16 @@
+def segundo_mas_grande(lista_numeros):
+    maximo = max(lista_numeros[0], lista_numeros[1])
+    segundo_maximo = min(lista_numeros[0], lista_numeros[1])
+
+    for numero in lista_numeros[2:]:
+        if numero > maximo:
+            segundo_maximo = maximo
+            maximo = numero
+        elif numero > segundo_maximo and numero != maximo:
+            segundo_maximo = numero
+
+    return segundo_maximo
+
+numeros = [42, 10, 5, 100, 80]
+resultado = segundo_mas_grande(numeros)
+print(resultado)

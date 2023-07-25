@@ -1,0 +1,9 @@
+def elementos_comunes(lista1, lista2):
+    set_lista1 = set(lista1)
+    lista_comunes = [elemento for elemento in lista1 if elemento in set_lista1 and elemento in lista2]
+    return lista_comunes
+
+numeros1 = [1, 2, 3, 4, 5]
+numeros2 = [3, 4, 5, 6, 7]
+resultado = elementos_comunes(numeros1, numeros2)
+print(resultado)
